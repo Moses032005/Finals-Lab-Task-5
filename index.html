@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finals Lab Task 5 - SQL Views and Stored Procedures</title>
+    <style>
+        /* Binary Rain Background Styles */
+        body {
+            background-color: #000 !important;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        #binary-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(1.2ch, 1fr));
+            grid-auto-rows: 1.2em;
+            overflow: hidden;
+            z-index: -1;
+            background-color: #000;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .binary-digit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            opacity: 0.8;
+            animation: fadeIn 0.5s forwards;
+            line-height: 1;
+            color: #0f0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 0.8; }
+        }
+
+        /* Content Styles */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: rgba(20, 20, 20, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            position: relative;
+            border: 1px solid #333;
+            font-family: 'Arial', sans-serif;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #ffeb3b;
+            font-family: 'Arial', sans-serif;
+        }
+        h1, h2 {
+            color: #ffeb3b;
+            font-family: 'Arial', sans-serif;
+        }
+        .steps {
+            background: rgba(40, 40, 40, 0.9);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ffeb3b;
+            font-family: 'Arial', sans-serif;
+        }
+        .steps ul {
+            list-style-type: none;
+            padding-left: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        .steps li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+        .steps li::before {
+            content: "✔";
+            color: #ffeb3b;
+            font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-family: 'Arial', sans-serif;
+        }
+        .images {
+            text-align: center;
+            margin-top: 20px;
+            font-family: 'Arial', sans-serif;
+        }
+        .images img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-top: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+            border: 1px solid #333;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #444;
+            margin-top: 30px;
+            color: #aaa;
+            font-family: 'Arial', sans-serif;
+        }
+        .portfolio-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #ffeb3b;
+            color: #222;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            font-family: 'Arial', sans-serif;
+        }
+        .portfolio-link:hover {
+            background-color: #ffc107;
+        }
+        p {
+            color: #ddd;
+            font-family: 'Arial', sans-serif;
+        }
+        .code-block {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            color: #0f0;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Binary Rain Background -->
+    <div id="binary-rain"></div>
+
+    <!-- Content Container -->
+    <div class="container">
+        <header>
+            <h1>Finals Lab Task 5</h1>
+            <p>Using SQL Views, Stored Procedures and Stored Functions</p>
+        </header>
+
+        <section>
+            <h2>Instructions</h2>
+            <div class="steps">
+                <ul>
+                    <li>Read the lecture on SQL views and stored procedures</li>
+                    <li>Try the examples in MySQL Workbench using the democodes.sql and hrd.sql files</li>
+                    <li>After practicing, perform the required SQL statements using inventory.sql</li>
+                    <li>Capture screenshots of the SQL and output for each task</li>
+                </ul>
+            </div>
+            
+            <h2>Database Structure</h2>
+            <p>Working with the inventory database containing vendors and products tables.</p>
+            
+            <div class="images">
+                <h2>Task 1: Create View for Products from 2002 Onwards</h2>
+                <div class="code-block">
+                    CREATE VIEW products_post_2002 AS
+                    SELECT v.v_code, v.v_name, p.p_descript, p.p_indate
+                    FROM vendors v
+                    JOIN products p ON v.v_code = p.v_code
+                    WHERE YEAR(p.p_indate) >= 2002;
+                </div>
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.1.png" alt="Task 1 SQL">
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.2.jpg" alt="Task 1 Output">
+            </div>
+        </section>
+
+        <section>
+            <h2>Task 2: Create View for Products Priced 100-150</h2>
+            <div class="code-block">
+                CREATE VIEW products_price_range AS
+                SELECT * FROM products
+                WHERE p_price BETWEEN 100 AND 150;
+            </div>
+            <div class="images">
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.3.jpg" alt="Task 2 SQL">
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.4.jpg" alt="Task 2 Output">
+            </div>
+        </section>
+
+        <section>
+            <h2>Task 3: Create View for Total Price Calculation</h2>
+            <div class="code-block">
+                CREATE VIEW vendor_total_price AS
+                SELECT v.v_code, v.v_name, 
+                       SUM(p.p_onhand * p.p_price) AS total_price
+                FROM vendors v
+                JOIN products p ON v.v_code = p.v_code
+                WHERE v.v_code IN (21344, 23119, 24288)
+                GROUP BY v.v_code, v.v_name;
+            </div>
+            <div class="images">
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.5.jpg" alt="Task 3 SQL">
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.6.jpg" alt="Task 3 Output">
+            </div>
+        </section>
+
+        <section>
+            <h2>Task 4: Create Stored Procedure to Update Vendor Name</h2>
+            <div class="code-block">
+                DELIMITER //
+                CREATE PROCEDURE update_vendor_name(IN vendor_id INT)
+                BEGIN
+                    UPDATE vendors
+                    SET v_name = 'Bryson and Co'
+                    WHERE v_code = vendor_id AND v_name = 'Bryson, Inc.';
+                END //
+                DELIMITER ;
+            </div>
+            <div class="images">
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.7.png" alt="Task 4 SQL">
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.8.jpg" alt="Task 4 Output">
+            </div>
+        </section>
+
+        <section>
+            <h2>Task 5: Create Function to Display Products by Vendor</h2>
+            <div class="code-block">
+                DELIMITER //
+                CREATE FUNCTION get_vendor_products(v_code_param INT, v_state_param VARCHAR(2))
+                RETURNS TEXT
+                DETERMINISTIC
+                BEGIN
+                    DECLARE result TEXT;
+                    SELECT GROUP_CONCAT(CONCAT(p_descript, ' - $', p_price) SEPARATOR '\n')
+                    INTO result
+                    FROM products p
+                    JOIN vendors v ON p.v_code = v.v_code
+                    WHERE p.v_code = v_code_param AND v.v_state = v_state_param;
+                    RETURN IFNULL(result, 'No products found');
+                END //
+                DELIMITER ;
+            </div>
+            <div class="images">
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.8.jpg" alt="Task 5 SQL">
+                <img src="https://github.com/Moses032005/EDM_Moses-David/raw/main/Finals%20Lab%20Task%205/Images/5.10.jpg" alt="Task 5 Output">
+            </div>
+        </section>
+
+        <footer>
+            <p>Finals Lab Task 5 | BSIS Student</p>
+            <a href="https://moses032005.github.io/EDM_Moses-David/" class="portfolio-link">Back to Portfolio</a>
+        </footer>
+    </div>
+
+    <script>
+        // Binary Rain Configuration
+        const config = {
+            fontSize: 20,
+            updateInterval: 50,
+            changeProbability: 0.3
+        };
+        
+        const container = document.getElementById('binary-rain');
+        let digits = [];
+        let columns = 0;
+        let rows = 0;
+        
+        function calculateGrid() {
+            const testChar = document.createElement('div');
+            testChar.textContent = '0';
+            testChar.style.position = 'absolute';
+            testChar.style.visibility = 'hidden';
+            testChar.style.fontSize = `${config.fontSize}px`;
+            testChar.style.fontFamily = 'Courier New, monospace';
+            document.body.appendChild(testChar);
+            
+            const charWidth = testChar.offsetWidth;
+            const charHeight = testChar.offsetHeight;
+            document.body.removeChild(testChar);
+            
+            columns = Math.ceil(window.innerWidth / charWidth);
+            rows = Math.ceil(window.innerHeight / charHeight);
+            
+            const perfectFontSizeWidth = window.innerWidth / columns;
+            const perfectFontSizeHeight = window.innerHeight / rows;
+            const perfectFontSize = Math.min(perfectFontSizeWidth, perfectFontSizeHeight);
+            
+            container.style.fontSize = `${perfectFontSize}px`;
+            container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+            container.style.gridAutoRows = `1fr`;
+        }
+        
+        function init() {
+            calculateGrid();
+            
+            for (let i = 0; i < columns * rows; i++) {
+                const digit = document.createElement('div');
+                digit.className = 'binary-digit';
+                digit.textContent = Math.random() > 0.5 ? '1' : '0';
+                container.appendChild(digit);
+                digits.push(digit);
+            }
+            
+            setInterval(animate, config.updateInterval);
+        }
+        
+        function animate() {
+            digits.forEach(digit => {
+                if (Math.random() < config.changeProbability) {
+                    digit.textContent = Math.random() > 0.5 ? '1' : '0';
+                    digit.style.opacity = 0;
+                    digit.style.animation = 'none';
+                    void digit.offsetWidth;
+                    digit.style.animation = 'fadeIn 0.5s forwards';
+                }
+            });
+        }
+        
+        function handleResize() {
+            calculateGrid();
+            
+            container.innerHTML = '';
+            digits = [];
+            
+            for (let i = 0; i < columns * rows; i++) {
+                const digit = document.createElement('div');
+                digit.className = 'binary-digit';
+                digit.textContent = Math.random() > 0.5 ? '1' : '0';
+                container.appendChild(digit);
+                digits.push(digit);
+            }
+        }
+        
+        window.addEventListener('load', init);
+        window.addEventListener('resize', handleResize);
+    </script>
+</body>
+</html>
